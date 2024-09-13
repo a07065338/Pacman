@@ -20,20 +20,24 @@ writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(10, 0)],    #se duplicó la velocidad de los fantasmas
+    [vector(-180, -160), vector(0, 10)],
+    [vector(100, 160), vector(0, -10)],
+    [vector(100, -160), vector(-10, 0)],
 ]
 # fmt: off
+
+# tiles crea el mapa, siendo 0 un muro y 1 el camino
+
+# Mapa con un agujero en el centro
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
@@ -52,7 +56,7 @@ tiles = [
 
 
 def square(x, y):
-    """Draw square using path at (x, y)."""
+# Dibuja un cuadrado en las coordenadas (x, y).
     path.up()
     path.goto(x, y)
     path.down()
@@ -66,7 +70,7 @@ def square(x, y):
 
 
 def offset(point):
-    """Return offset of point in tiles."""
+# Devuelve el índice de un punto en la lista `tiles`.
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
@@ -74,7 +78,7 @@ def offset(point):
 
 
 def valid(point):
-    """Return True if point is valid in tiles."""
+# Verifica si una posición es válida (es decir, si no es un muro).
     index = offset(point)
 
     if tiles[index] == 0:
@@ -89,7 +93,7 @@ def valid(point):
 
 
 def world():
-    """Draw world using path."""
+#Dibuja el mundo utilizando el mapa `tiles`.
     bgcolor('black')
     path.color('blue')
 
@@ -164,7 +168,7 @@ def move():
 
 
 def change(x, y):
-    """Change pacman aim if valid."""
+#Cambia la dirección de Pac-Man si el movimiento es válido.
     if valid(pacman + vector(x, y)):
         aim.x = x
         aim.y = y
