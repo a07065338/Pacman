@@ -108,7 +108,8 @@ def world():
 
 
 def move():
-    """Move pacman and all ghosts."""
+    def move():
+#Mueve a Pac-Man y a los fantasmas.
     writer.undo()
     writer.write(state['score'])
 
@@ -139,8 +140,13 @@ def move():
                 vector(-5, 0),
                 vector(0, 5),
                 vector(0, -5),
-            ]
-            plan = choice(options)
+                ]
+            distances = []
+            for option in options:
+                #Hace que los fantsmas te busquen
+                new_point = point + option
+                distances.append(abs(new_point - pacman))
+            plan = options[distances.index(min(distances))]
             course.x = plan.x
             course.y = plan.y
 
